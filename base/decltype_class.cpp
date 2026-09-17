@@ -1,3 +1,18 @@
+// ============================================================================
+// decltype 用在成员、下标、三元表达式上；以及返回局部对象时的构造
+//
+// 未加括号的成员访问：得到成员的声明类型，不随对象是不是 const 变
+//   decltype(s.value) / decltype(cs.value) 都是 int（value 声明为 int）
+// 函数调用、下标、三元：按表达式的值类别走
+//   getRef() 返回 int&  → decltype 是 int&
+//   getVal() 返回 int   → decltype 是 int（纯右值）
+//   arr[0] 是左值       → decltype(arr[0]) 是 int&
+//
+// make_x() 返回局部 X：拷贝/移动是否发生取决于是否 NRVO。
+// 本目标在 CMake 里加了 -fno-elide-constructors，用来观察构造/析构次数。
+//
+// 编译: g++ -std=c++17 -Wall -fno-elide-constructors decltype_class.cpp -o decltype_class
+// ============================================================================
 #include <iostream>
 #include <vector>
 #include <type_traits>
