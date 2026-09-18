@@ -116,6 +116,15 @@ public:
 };
 const string Case14::description = "case14:默认析构函数";
 
+class Case15 {
+public:
+    Case15() = default;
+    Case15(const Case15&) = delete;
+    Case15& operator=(const Case15&) = delete;
+    static const string description;
+};
+const string Case15::description = "case15:默认构造函数 + 删除拷贝构造和拷贝赋值";
+
 template<typename T>
 void print_default_function() {
     cout << boolalpha;
@@ -147,4 +156,5 @@ int main() {
     print_default_function<Case12>();   
     print_default_function<Case13>();
     print_default_function<Case14>();
+    print_default_function<Case15>();
 }
